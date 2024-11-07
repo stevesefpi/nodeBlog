@@ -1,0 +1,52 @@
+<%- include('partials/header') %>
+
+    <h1>Personal blog project without a database using NodeJS, Express and EJS</h1>
+    <div class="form-margin">
+        <form class="submit-form" action="/submit" method="POST">
+            <div class="mb-3">
+                <label for="username" class="form-label">Your Username:</label>
+                <input class="form-control" type="text" id="username" name="username" placeholder="Username" required />
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label">Your text:</label>
+                <textarea class="form-control" id="content" name="content" rows="6" placeholder="Your Text Here"
+                    required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Comment</button>
+        </form>
+    </div>
+
+
+    <% if (locals.posts && locals.posts.length> 0) { %> <% locals.posts.forEach((post, index)=> { %>
+
+            <div class="card">
+                <div class="card-header">
+                    <h1>
+                        <%= post.username %>
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        <%= post.content %>
+                    </p>
+
+                    <!-- Edit button for each post -->
+                    <form>
+                        <a href="/edit/<%= index %>" class="btn btn-primary mt-3">Edit</a>
+                    </form>
+                    <!-- Delete button for each post -->
+                    <form action="/delete" method="POST" style="display: inline">
+                        <input type="hidden" name="postIndex" value="<%= index %>" />
+                        <!-- <input type="submit" value="Delete"> -->
+                        <button type="submit" value="Delete" class="btn btn-primary mt-3">
+                            Delete
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+            <% }); %>
+                <% } else { %>
+                    <p>No posts to see yet...</p>
+                    <% } %> <%- include('partials/footer') %>
